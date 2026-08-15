@@ -1,0 +1,295 @@
+package com.resurrect.xperi_r.service
+
+import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.app.Service
+import android.content.BroadcastReceiver
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.content.Intent.ACTION_SCREEN_OFF
+import android.content.Intent.ACTION_SCREEN_ON
+import android.content.IntentFilter
+import android.content.pm.ServiceInfo
+import android.hardware.Sensor
+import android.hardware.Sensor.TYPE_PROXIMITY
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
+import android.hardware.SensorManager.SENSOR_DELAY_NORMAL
+import android.os.Build
+import android.os.IBinder
+import android.os.PowerManager
+import android.os.PowerManager.FULL_WAKE_LOCK
+import android.os.PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.provider.Settings
+import android.service.quicksettings.TileService
+import androidx.core.app.NotificationCompat
+import androidx.core.app.ServiceCompat
+import androidx.core.content.IntentCompat
+import androidx.core.content.getSystemService
+import com.resurrect.xperi_r.R
+
+class TadanoTileParentService : Service() {
+    private val vibrator: Vibrator by lazy { getSystemService()!! }
+    private val sensorManager: SensorManager by lazy { getSystemService()!! }
+
+    private var isCoffeeReceiverRegistered = false
+    private var isTeaReceiverRegistered = false
+
+    @Suppress("DEPRECATION")
+    private val coffeeWakeLock by lazy {
+        getSystemService<PowerManager>()!!.newWakeLock(FULL_WAKE_LOCK, "XperiR::Coffee")
+    }
+    private val teaWakeLock by lazy {
+        getSystemService<PowerManager>()!!.newWakeLock(PROXIMITY_SCREEN_OFF_WAKE_LOCK, "XperiR::Tea")
+    }
+
+    private val teaScreenActionReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(
+                context: Context,
+                intent: Intent,
+            ) {
+                when (intent.action) {
+                    ACTION_SCREEN_ON -> switchProximityListener(true)
+                    ACTION_SCREEN_OFF -> switchProximityListener(false)
+                }
+            }
+        }
+    private val coffeeScreenOffReceiver =
+        object : BroadcastReceiver() {
+            override fun onReceive(
+                context: Context,
+                intent: Intent,
+            ) {
+                stop()
+            }
+        }
+
+    private val proximitySensorListener =
+        object : SensorEventListener {
+            override fun onSensorChanged(event: SensorEvent?) {
+                if (event?.sensor?.type == TYPE_PROXIMITY) {
+                    val distance = event.values[0]
+                    if (distance == 0f) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(21, 255))
+                        switchTeaWakeLock(true)
+                    } else {
+                        switchTeaWakeLock(false)
+                    }
+                }
+            }
+
+            override fun onAccuracyChanged(
+                sensor: Sensor,
+                accuracy: Int,
+            ) {
+            }
+        }
+
+    override fun onStartCommand(
+        intent: Intent,
+        flags: Int,
+        startId: Int,
+    ): Int {
+        when (intent.action) {
+            ACTION_START_SERVICE -> {
+                getSystemService(NotificationManager::class.java)!!.run {
+                    val channel =
+                        NotificationChannel(
+                            CHANNEL_GENERAL,
+                            getString(R.string.tadano_tile_service_notif_title),
+                            NotificationManager.IMPORTANCE_LOW,
+                        ).apply {
+                            description = getString(R.string.tadano_tile_service_notif_channel_desc)
+                            setSound(null, null)
+                        }
+                    createNotificationChannel(channel)
+                }
+                val channelSettingsIntent =
+                    Intent(Settings.ACTION_CHANNEL_NOTIFICATION_SETTINGS).apply {
+                        putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                        putExtra(Settings.EXTRA_CHANNEL_ID, CHANNEL_GENERAL)
+                    }
+                val clickPendingIntent =
+                    PendingIntent.getActivity(
+                        this,
+                        FOREGROUND_SERVICE_ID,
+                        channelSettingsIntent,
+                        PendingIntent.FLAG_IMMUTABLE,
+                    )
+                val type = IntentCompat.getSerializableExtra(intent, EXTRA_SERVICE_TYPE, Type::class.java)!!
+                val icon =
+                    when (type) {
+                        Type.COFFEE -> R.drawable.ic_coffee
+                        Type.TEA -> R.drawable.ic_tea
+                    }
+                startForeground(
+                    FOREGROUND_SERVICE_ID,
+                    NotificationCompat
+                        .Builder(this, CHANNEL_GENERAL)
+                        .setShowWhen(false)
+                        .setSmallIcon(icon)
+                        .setContentTitle(getString(R.string.tadano_tile_service_notif_title))
+                        .setContentText(getString(R.string.tadano_tile_service_notif_text))
+                        .setContentIntent(clickPendingIntent)
+                        .build(),
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                        ServiceInfo.FOREGROUND_SERVICE_TYPE_SPECIAL_USE
+                    } else {
+                        0
+                    },
+                )
+
+                when (type) {
+                    Type.COFFEE -> switchCoffeeMode(true)
+                    Type.TEA -> switchTeaMode(true)
+                }
+            }
+
+            ACTION_STOP_SERVICE -> stop()
+
+            else -> throw Exception("wtf")
+        }
+
+        sendBroadcast(
+            Intent(intent.action).apply {
+                `package` = packageName
+            },
+        )
+
+        return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        switchCoffeeMode(false)
+        switchTeaMode(false)
+    }
+
+    private fun switchTeaMode(active: Boolean) {
+        if (active) {
+            if (isCoffeeActive) {
+                switchCoffeeMode(false)
+            }
+            val filter =
+                IntentFilter().apply {
+                    addAction(ACTION_SCREEN_OFF)
+                    addAction(ACTION_SCREEN_ON)
+                    priority = 999
+                }
+            registerReceiver(teaScreenActionReceiver, filter)
+            isTeaReceiverRegistered = true
+
+            switchProximityListener(true)
+        } else {
+            if (isTeaReceiverRegistered) {
+                unregisterReceiver(teaScreenActionReceiver)
+                isTeaReceiverRegistered = false
+            }
+            switchProximityListener(false)
+        }
+        isTeaActive = active
+
+        TileService.requestListeningState(
+            this,
+            ComponentName(this, TeaTileService::class.java),
+        )
+    }
+
+    private fun switchCoffeeMode(active: Boolean) {
+        if (active) {
+            if (isTeaActive) {
+                switchTeaMode(false)
+            }
+            val filter =
+                IntentFilter().apply {
+                    addAction(ACTION_SCREEN_OFF)
+                    priority = 999
+                }
+            registerReceiver(coffeeScreenOffReceiver, filter)
+            isCoffeeReceiverRegistered = true
+
+            switchCoffeeWakeLock(true)
+        } else {
+            if (isCoffeeReceiverRegistered) {
+                unregisterReceiver(coffeeScreenOffReceiver)
+                isCoffeeReceiverRegistered = false
+            }
+            switchCoffeeWakeLock(false)
+        }
+        isCoffeeActive = active
+
+        TileService.requestListeningState(
+            this,
+            ComponentName(this, CoffeeTileService::class.java),
+        )
+    }
+
+    private fun stop() {
+        ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE)
+        stopSelf()
+    }
+
+    @SuppressLint("WakelockTimeout", "Wakelock")
+    private fun switchTeaWakeLock(acquire: Boolean) {
+        if (acquire) {
+            if (!teaWakeLock.isHeld) {
+                teaWakeLock.acquire()
+            }
+        } else {
+            if (teaWakeLock.isHeld) {
+                teaWakeLock.release()
+            }
+        }
+    }
+
+    @SuppressLint("WakelockTimeout", "Wakelock")
+    private fun switchCoffeeWakeLock(acquire: Boolean) {
+        if (acquire) {
+            if (!coffeeWakeLock.isHeld) {
+                coffeeWakeLock.acquire()
+            }
+        } else {
+            if (coffeeWakeLock.isHeld) {
+                coffeeWakeLock.release()
+            }
+        }
+    }
+
+    private fun switchProximityListener(on: Boolean) {
+        if (on) {
+            sensorManager.getDefaultSensor(TYPE_PROXIMITY)?.run {
+                sensorManager.registerListener(proximitySensorListener, this, SENSOR_DELAY_NORMAL)
+            }
+        } else {
+            sensorManager.unregisterListener(proximitySensorListener)
+        }
+    }
+
+    override fun onBind(intent: Intent): IBinder? = null
+
+    companion object {
+        var isCoffeeActive = false
+        var isTeaActive = false
+
+        const val CHANNEL_GENERAL = "general"
+
+        const val ACTION_START_SERVICE = "start_service"
+        const val ACTION_STOP_SERVICE = "stop_service"
+
+        const val EXTRA_SERVICE_TYPE = "service_type"
+
+        const val FOREGROUND_SERVICE_ID = 14045
+    }
+
+    enum class Type {
+        COFFEE,
+        TEA,
+    }
+}

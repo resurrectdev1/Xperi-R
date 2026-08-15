@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="linkcleaner"
+        android:enabled="true"
+        android:icon="@mipmap/ic_link_cleaner_shortcut"
+        android:shortcutShortLabel="@string/link_cleaner_label">
+        <intent
+            android:action="xperi_r.action.CLEAN_CLIPBOARD"
+            android:targetPackage="com.resurrect.xperi_r"
+            android:targetClass="com.resurrect.xperi_r.activity.LinkCleanerTargetActivity" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="wame"
+        android:enabled="true"
+        android:icon="@mipmap/ic_wa_shortcut"
+        android:shortcutShortLabel="@string/wame_label">
+        <intent
+            android:action="xperi_r.action.WA_ME_CLIPBOARD"
+            android:targetPackage="com.resurrect.xperi_r"
+            android:targetClass="com.resurrect.xperi_r.activity.WaMeActivity" />
+    </shortcut>
+</shortcuts>

@@ -1,0 +1,75 @@
+package com.resurrect.xperi_r.activity
+
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Intent
+import android.os.Bundle
+import android.util.Patterns
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.window.Dialog
+import androidx.core.content.getSystemService
+import logcat.LogPriority
+import logcat.logcat
+import com.resurrect.xperi_r.R
+import com.resurrect.xperi_r.feature.LinkCleaner
+import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
+import com.resurrect.xperi_r.util.shareLink
+
+class LinkCleanerTargetActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        when (val action = intent.action) {
+            Intent.ACTION_SEND -> {
+                val oldLink = intent.getStringExtra(Intent.EXTRA_TEXT)
+                if (oldLink != null) {
+                    val newLink = LinkCleaner.cleanLink(this, oldLink)
+                    if (newLink != null) {
+                        shareLink(newLink)
+                        Toast.makeText(this, R.string.link_cleaner_success, Toast.LENGTH_SHORT).show()
+                    }
+                }
+                finish()
+            }
+
+            ACTION_CLEAN_CLIPBOARD -> {
+                setContent {
+                    XperiRM3Theme {
+                        Dialog(onDismissRequest = {}, content = {})
+                    }
+                    SideEffect {
+                        val cm = getSystemService<ClipboardManager>()
+                        if (cm == null) {
+                            finish()
+                            return@SideEffect
+                        }
+                        val oldLink = cm.primaryClip?.getItemAt(0)?.text
+                        if (oldLink.isValidUrl()) {
+                            val newLink = LinkCleaner.cleanLink(this, oldLink.toString())
+                            if (newLink != null) {
+                                cm.setPrimaryClip(ClipData.newPlainText("cleaned link", newLink))
+                                Toast.makeText(this, R.string.link_cleaner_success_clipboard, Toast.LENGTH_SHORT).show()
+                            }
+                        } else {
+                            Toast.makeText(this, R.string.link_cleaner_failed_clipboard, Toast.LENGTH_SHORT).show()
+                        }
+                        finish()
+                    }
+                }
+            }
+
+            else -> {
+                logcat(LogPriority.ERROR) { "Unknown action: $action" }
+                finish()
+            }
+        }
+    }
+
+    private fun CharSequence?.isValidUrl(): Boolean = this != null && Patterns.WEB_URL.matcher(this).matches()
+
+    companion object {
+        private const val ACTION_CLEAN_CLIPBOARD = "xperi_r.action.CLEAN_CLIPBOARD"
+    }
+}

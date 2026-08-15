@@ -1,0 +1,131 @@
+<resources>
+    <string name="app_name" translatable="false">XPERI+</string>
+    <string name="accessibility_service_desc">Run features and dispatch button action when needed.</string>
+
+    <string name="assistant_button_title">Assistant Button</string>
+    <string name="assistant_launch_selection_title">Custom action</string>
+    <string name="assistant_action_select_default_value">Default</string>
+    <string name="assistant_action_reset_toast">Action reset to default.</string>
+    <string name="assistant_action_save_failed_toast">Failed to save selection.</string>
+
+    <string name="pocket_no_touchy_title">Prevent accidental touch</string>
+    <string name="pocket_no_touchy_desc">Prevent unintentional operations caused by accidental key presses or screen touch while the device is in a pocket or bag</string>
+
+    <string name="flip_to_shush_title">Flip to Shush</string>
+    <string name="flip_to_shush_desc">Turn on Do Not Disturb by placing your phone face down on a flat surface</string>
+    <string name="flip_to_shush_desc_extra_screen_on">Note: Only works when the screen is on.</string>
+    <string name="allow_dnd_access_toast">Please allow XPERI+ to access Do Not Disturb</string>
+
+    <string name="tab_title_apps">Apps</string>
+    <string name="tab_title_shortcuts">Shortcuts</string>
+    <string name="tab_title_other">Other</string>
+
+    <string name="category_title_media_key">Media Keys</string>
+
+    <string name="no_touchy_dialog_title">Preventing accidental operations</string>
+    <string name="no_touchy_dialog_text">Keep the sensor placed on top of the front panel clean and not covered to make it work properly.</string>
+    <string name="no_touchy_dialog_ignore_button">Ignore</string>
+    <string name="accessibility_service_prompt_title">Accessibility service disabled</string>
+    <string name="accessibility_service_prompt_desc">Enable accessibility service to get the features ready.</string>
+    <string name="button_open_settings">Open settings</string>
+    <string name="logs_permission_prompt_title">Missing READ_LOGS permission</string>
+    <string name="logs_permission_prompt_desc">READ_LOGS permission is needed to detect Assistant button triggers.</string>
+    <string name="write_secure_settings_permission_prompt_title">Missing WRITE_SECURE_SETTINGS permission</string>
+    <string name="write_secure_settings_permission_prompt_desc">WRITE_SECURE_SETTINGS permission is used to disable Assistant Button when needed and set custom lockscreen shortcut.</string>
+    <string name="button_grant_permission">Grant permission</string>
+
+    <string name="read_logs_permission_setup_title">READ_LOGS Permission Needed</string>
+    <string name="write_secure_settings_permission_setup_title">WRITE_SECURE_SETTINGS Permission Needed</string>
+    <string name="shell_permission_setup_desc_root">Root will be used to grant this permission.</string>
+    <string name="shell_permission_setup_desc_noroot">To grant this permission, do the following:\n\n1. Setup ADB on your computer and phone\n2. Connect your phone to your computer\n3. Run this command on your computer Terminal or Command Prompt in one line:</string>
+    <string name="shell_permission_setup_desc_noroot_adb_link_label">Setup ADB on your computer and phone</string>  <!-- Label for annotated link inside read_logs_permission_setup_desc_noroot. -->
+    <string name="setup_adb_link" translatable="false">https://kutt.it/SetupADB</string>
+    <string name="shell_permission_setup_command_card_caption">Tap the card to share command</string>
+    <string name="shell_permission_setup_desc_extra">The app will restart after the permission is granted.</string>
+
+    <string name="tadano_tile_service_notif_channel_desc">Used for showing mandatory foreground service notification. Can be hidden safely.</string>
+    <string name="tadano_tile_service_notif_title">XPERI+ tile service</string>
+    <string name="tadano_tile_service_notif_text">Useless notification. Tap to open notification settings</string>
+    <string name="coffee_tile_label">Coffee</string>
+    <string name="tea_tile_label">Tea</string>
+
+    <string name="intent_action_label">Launch %s</string>
+    <string name="media_key_action_label">Media key %s</string>
+    <string name="media_key_play">Play</string>
+    <string name="media_key_pause">Pause</string>
+    <string name="media_key_play_pause">Play/Pause</string>
+    <string name="media_key_stop">Stop</string>
+    <string name="media_key_previous">Previous</string>
+    <string name="media_key_next">Next</string>
+    <string name="flashlight_action_label">Flashlight</string>
+    <string name="screenshot_action_label">Take screenshot</string>
+    <string name="ringer_mode_action_label">Ringer Mode (Normal/Vibrate)</string>
+    <string name="mute_microphone_action_label">Mute Microphone</string>
+    <string name="digital_assistant_action_label">Digital Assistant</string>
+
+    <string name="hide_assistant_cue_title">Hide Assistant sound cue</string>
+    <string name="hide_assistant_cue_desc">Mutes media stream for a brief period of time after pressing the Assistant button</string>
+
+    <string name="coffee_boarding_title">Keep your phone awake with Coffee</string>
+    <string name="tea_boarding_title">Turn your phone\'s screen off while keeping it awake with Tea</string>
+    <string name="coffee_boarding_desc">Look at the photo of your loved one without keeping your finger on the screen. Coffee will be disabled automatically when the screen is turned off.</string>
+    <string name="tea_boarding_desc">Listen to music on The Tube with your phone screen locked for free. Just block the proximity sensor and see the magic happens.</string>
+    <string name="button_boarding_acknowledgement">Got it</string>
+
+    <string name="button_continue">Continue</string>
+    <string name="button_retry">Retry</string>
+    <string name="button_cancel">Cancel</string>
+    <string name="button_open">Open</string>
+    <string name="button_done">Done</string>
+
+    <string name="check_for_update">Check for updates</string>
+    <string name="off">Off</string>
+    <string name="reset_to_default">Reset to default</string>
+    <string name="do_nothing">Do nothing</string>
+
+    <string name="lockscreen_shortcut_title">Lockscreen shortcut</string>
+    <string name="lockscreen_shortcut_desc">Customize lockscreen shortcut</string>
+    <string name="lockscreen_shortcut_left">Left shortcut</string>
+    <string name="lockscreen_shortcut_right">Right shortcut</string>
+
+    <string name="statusbar_action_notifications">Open notification panel</string>
+    <string name="statusbar_action_qs">Open quick settings panel</string>
+
+    <string name="link_archiver_label">Link Archiver</string>
+    <string name="link_cleaner_label">Link Cleaner</string>
+    <string name="link_cleaner_success">Link cleaned</string>
+    <string name="link_cleaner_success_clipboard">Cleaned link copied to clipboard</string>
+    <string name="link_cleaner_failed">Failed to clean link</string>
+    <string name="link_cleaner_failed_clipboard">Newest clipboard item is not a valid link</string>
+
+    <string name="fixtweet_label">FxTwitter/FixupX</string>
+    <string name="fixtweet_failed_unknown">Unknown link</string>
+
+    <string name="wame_label">Click to WA Chat</string>
+    <string name="wame_unavailable">WhatsApp not installed</string>
+    <string name="wame_failed_clipboard">Newest clipboard item is not a valid phone number</string>
+
+    <string name="mute_microphone_notif_channel_title">Muted microphone reminder</string>
+    <string name="mute_microphone_on">Microphone muted</string>
+    <string name="mute_microphone_off">Microphone unmuted</string>
+    <string name="mute_microphone_action_cancel">Unmute</string>
+
+    <string name="android_app_link_title">Android App Link</string>
+    <string name="android_app_link_subtitle">Manage link target apps</string>
+    <string name="link_chooser_dialog_title">Open with</string>
+    <string name="link_chooser_toggle_label">Use custom chooser</string>
+    <string name="link_chooser_enable_dialog">Set %s as default browser to enable custom link target chooser.</string>
+    <string name="link_chooser_info">Custom chooser is shown when an opened link has multiple targets.\n\nAny approved target of said link must have the \"Open supported links\" settings disabled.</string>
+    <string name="approved_link_target_title">Approved Link Targets</string>
+    <string name="approved_link_target_subtitle">Target apps that have verified or manually approved domain</string>
+    <string name="unapproved_link_target_title">Unapproved Link Targets</string>
+    <string name="unapproved_link_target_subtitle">Target apps that have unapproved domain</string>
+    <string name="approved_link_disabled_text">This app will never automatically open supported links</string>
+    <string name="disabled">Disabled</string>
+    <string name="open_settings">Open settings</string>
+
+    <string name="apk_installer_title">APK Installer</string>
+    <string name="apk_installer_profile_available">Baseline Profile available</string>
+    <string name="apk_installer_profile_unavailable">Baseline Profile unavailable</string>
+    <string name="apk_installer_success">App installed</string>
+</resources>

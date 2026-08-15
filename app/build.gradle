@@ -1,0 +1,110 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.plugin.serialization'
+    id 'com.google.android.gms.oss-licenses-plugin'
+    id "org.jetbrains.kotlin.plugin.compose" version "${kotlin_version}"
+}
+
+final def keystorePropertiesFile = rootProject.file("keystore.properties")
+final def gitCommitHash = { ->
+    providers.exec {
+        commandLine 'git', 'rev-parse', '--short', 'HEAD'
+    }.standardOutput.asText.get().trim()
+}
+
+android {
+    compileSdk = 36
+    namespace = 'com.resurrect.xperi_r'
+
+    defaultConfig {
+        applicationId = "com.resurrect.xperi_r"
+        minSdk = 29
+        targetSdk = 36
+        versionCode = 10
+        versionName = "0.8.2"
+        resourceConfigurations += ['en', 'ja', 'ru', 'de']
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+    }
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_21
+
+            freeCompilerArgs.addAll(
+                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
+                "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
+                "-opt-in=androidx.compose.ui.text.ExperimentalTextApi",
+            )
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles 'proguard-base.pro', 'proguard-rules.pro'
+        }
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+            proguardFiles 'proguard-base.pro', 'proguard-rules.pro'
+        }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    if (keystorePropertiesFile.exists()) {
+        def keystoreProperties = new Properties()
+        keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+        signingConfigs {
+            debug {
+                storeFile = rootProject.file(keystoreProperties['storeFile'])
+                storePassword = keystoreProperties['storePassword']
+                keyAlias = keystoreProperties['keyAlias']
+                keyPassword = keystoreProperties['keyPassword']
+            }
+        }
+        buildTypes.release.signingConfig = signingConfigs.debug
+        buildTypes.debug.signingConfig = signingConfigs.debug
+    }
+}
+
+dependencies {
+    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'androidx.activity:activity-compose:1.12.4'
+    implementation "androidx.navigation:navigation-compose:2.9.7"
+    implementation "androidx.profileinstaller:profileinstaller:1.4.1"
+    implementation "com.github.topjohnwu.libsu:core:5.2.2"
+    implementation 'com.squareup.logcat:logcat:0.4'
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.4.0'
+    implementation "io.github.fornewid:material-motion-compose-core:2.0.1"
+
+    implementation platform("androidx.compose:compose-bom-alpha:$compose_bom_version")
+    implementation "androidx.compose.ui:ui"
+    implementation "androidx.compose.material:material-icons-extended"
+    implementation "androidx.compose.material3:material3"
+    implementation "androidx.compose.ui:ui-text-google-fonts"
+    implementation "androidx.compose.ui:ui-tooling-preview"
+    debugImplementation "androidx.compose.ui:ui-tooling"
+
+    def coroutines_version = "1.10.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+    def lifecycle_version = "2.10.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
+
+    implementation "androidx.datastore:datastore:1.2.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.10.0"
+}
