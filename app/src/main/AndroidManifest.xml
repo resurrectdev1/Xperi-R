@@ -32,7 +32,7 @@
         android:required="true" />
 
     <application
-        android:name=".Xperi-R"
+        android:name=".XperiRApplication"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
