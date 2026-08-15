@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.activity.MainActivityViewModel
+import com.resurrect.xperi_r.feature.Action
 import com.resurrect.xperi_r.feature.DigitalAssistantAction
 import com.resurrect.xperi_r.feature.DoNothingAction
 import com.resurrect.xperi_r.feature.FlashlightAction
@@ -58,7 +59,7 @@ import com.resurrect.xperi_r.ui.component.WriteSettingsCard
 import com.resurrect.xperi_r.util.AssistButtonPrefs
 import com.resurrect.xperi_r.util.canReadSystemLogs
 import com.resurrect.xperi_r.util.canWriteSecureSettings
-import com.resurrect.xperi_r.util.setAsAssistantAction
+import com.resurrect.xperi_r.util.extractShortcutAction
 import kotlinx.coroutines.launch
 
 @Composable
@@ -126,8 +127,26 @@ fun AssistantActionSelection(
     modifier: Modifier = Modifier,
     mainViewModel: MainActivityViewModel = viewModel(),
 ) {
-    val scope = rememberCoroutineScope()
     val prefs = XperiRApplication.prefs
+    ActionSelectionPager(
+        navController = navController,
+        contentPadding = contentPadding,
+        modifier = modifier,
+        mainViewModel = mainViewModel,
+        onActionSelected = { prefs.setAssistButtonAction(it) },
+    )
+}
+
+@Composable
+fun ActionSelectionPager(
+    navController: NavController,
+    contentPadding: PaddingValues,
+    onActionSelected: suspend (Action?) -> Unit,
+    modifier: Modifier = Modifier,
+    mainViewModel: MainActivityViewModel = viewModel(),
+    includeDoNothing: Boolean = true,
+) {
+    val scope = rememberCoroutineScope()
     val titles = listOf(
         stringResource(R.string.tab_title_apps),
         stringResource(R.string.tab_title_shortcuts),
@@ -168,7 +187,7 @@ fun AssistantActionSelection(
                                             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                                             component = it
                                         }
-                                        prefs.setAssistButtonAction(IntentAction(intent))
+                                        onActionSelected(IntentAction(intent))
                                         navController.popBackStack()
                                     }
                                 },
@@ -186,8 +205,9 @@ fun AssistantActionSelection(
                     rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                         if (it.resultCode == Activity.RESULT_OK) {
                             val intent = it.data
-                            if (intent != null) {
-                                scope.launch { intent.setAsAssistantAction(prefs) }
+                            val action = intent?.extractShortcutAction()
+                            if (action != null) {
+                                scope.launch { onActionSelected(action) }
                             } else {
                                 Toast.makeText(
                                     context,
@@ -243,7 +263,7 @@ fun AssistantActionSelection(
                             label = stringResource(id = item.labelResId),
                             onClick = {
                                 scope.launch {
-                                    prefs.setAssistButtonAction(MediaKeyAction(item))
+                                    onActionSelected(MediaKeyAction(item))
                                     navController.popBackStack()
                                 }
                             },
@@ -258,7 +278,7 @@ fun AssistantActionSelection(
                                 label = FlashlightAction().getLabel(context),
                                 onClick = {
                                     scope.launch {
-                                        prefs.setAssistButtonAction(FlashlightAction())
+                                        onActionSelected(FlashlightAction())
                                         navController.popBackStack()
                                     }
                                 },
@@ -271,7 +291,7 @@ fun AssistantActionSelection(
                             label = ScreenshotAction().getLabel(context),
                             onClick = {
                                 scope.launch {
-                                    prefs.setAssistButtonAction(ScreenshotAction())
+                                    onActionSelected(ScreenshotAction())
                                     navController.popBackStack()
                                 }
                             },
@@ -283,7 +303,7 @@ fun AssistantActionSelection(
                             label = stringResource(id = item.labelResId),
                             onClick = {
                                 scope.launch {
-                                    prefs.setAssistButtonAction(StatusBarAction(item))
+                                    onActionSelected(StatusBarAction(item))
                                     navController.popBackStack()
                                 }
                             },
@@ -295,7 +315,7 @@ fun AssistantActionSelection(
                             label = RingerModeAction().getLabel(context),
                             onClick = {
                                 scope.launch {
-                                    prefs.setAssistButtonAction(RingerModeAction())
+                                    onActionSelected(RingerModeAction())
                                     navController.popBackStack()
                                 }
                             },
@@ -307,7 +327,7 @@ fun AssistantActionSelection(
                             label = MuteMicrophoneAction().getLabel(context),
                             onClick = {
                                 scope.launch {
-                                    prefs.setAssistButtonAction(MuteMicrophoneAction())
+                                    onActionSelected(MuteMicrophoneAction())
                                     navController.popBackStack()
                                 }
                             },
@@ -319,26 +339,29 @@ fun AssistantActionSelection(
                             label = DigitalAssistantAction().getLabel(context),
                             onClick = {
                                 scope.launch {
-                                    prefs.setAssistButtonAction(DigitalAssistantAction())
+                                    onActionSelected(DigitalAssistantAction())
                                     navController.popBackStack()
                                 }
                             },
                         )
                     }
-                    item {
-                        CommonActionRow(
-                            iconVector = Icons.Rounded.Clear,
-                            label = DoNothingAction().getLabel(context),
-                            onClick = {
-                                scope.launch {
-                                    prefs.setAssistButtonAction(DoNothingAction())
-                                    navController.popBackStack()
-                                }
-                            },
-                        )
+                    if (includeDoNothing) {
+                        item {
+                            CommonActionRow(
+                                iconVector = Icons.Rounded.Clear,
+                                label = DoNothingAction().getLabel(context),
+                                onClick = {
+                                    scope.launch {
+                                        onActionSelected(DoNothingAction())
+                                        navController.popBackStack()
+                                    }
+                                },
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
+
