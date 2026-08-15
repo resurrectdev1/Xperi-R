@@ -106,5 +106,5 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-service:$lifecycle_version"
 
     implementation "androidx.datastore:datastore:1.2.0"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.10.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-protobuf:1.11.0"
 }
