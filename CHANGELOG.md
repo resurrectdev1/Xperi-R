@@ -10,6 +10,11 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 > Changes staged for the next release go here. Move them down when you cut a tag.
 
+### Added
+
+* Add vibration to camera key overide (To be done)
+* Social banner preview
+
 ---
 
 ## [0.8.2] - 2026-08-15
