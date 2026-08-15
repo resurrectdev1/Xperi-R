@@ -138,6 +138,7 @@ fun AssistantActionSelection(
     )
 }
 
+@Suppress("ktlint:compose:parameter-naming")
 @Composable
 fun ActionSelectionPager(
     navController: NavController,
