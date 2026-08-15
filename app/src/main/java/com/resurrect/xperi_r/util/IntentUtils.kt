@@ -16,19 +16,18 @@ const val EXTRA_FRAGMENT_ARG_KEY = ":settings:fragment_args_key"
 const val EXTRA_SHOW_FRAGMENT_ARGUMENTS = ":settings:show_fragment_args"
 
 @Suppress("DEPRECATION")
-suspend fun Intent.setAsAssistantAction(prefs: PreferencesRepository) {
+fun Intent.extractShortcutAction(): IntentAction? {
     if (!isValidExtraType(Intent.EXTRA_SHORTCUT_INTENT, Intent::class.java)) {
         logcat(LogPriority.ERROR) { "Returned intent doesn't have shortcut intent extra!" }
-        return
+        return null
     }
     val name = getStringExtra(Intent.EXTRA_SHORTCUT_NAME)
     logcat { "Preparing to save intent action with label $name" }
     val extra = IntentCompat.getParcelableExtra(this, Intent.EXTRA_SHORTCUT_INTENT, Intent::class.java)
     val intent = Intent(extra).apply {
-        // For UI
         putExtra(Intent.EXTRA_SHORTCUT_NAME, name)
     }
-    prefs.setAssistButtonAction(IntentAction(intent))
+    return IntentAction(intent)
 }
 
 fun Intent.loadLabel(context: Context): String {
