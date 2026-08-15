@@ -60,11 +60,17 @@ import com.resurrect.xperi_r.ui.component.Scaffold
 import com.resurrect.xperi_r.ui.destination.AndroidAppLinkSettings
 import com.resurrect.xperi_r.ui.destination.AssistantActionSelection
 import com.resurrect.xperi_r.ui.destination.AssistantButtonSettings
+import com.resurrect.xperi_r.ui.destination.CameraKeyActionSelection
+import com.resurrect.xperi_r.ui.destination.CameraKeyActionTarget
+import com.resurrect.xperi_r.ui.destination.CameraKeyOverriderSettings
 import com.resurrect.xperi_r.ui.destination.Home
 import com.resurrect.xperi_r.ui.destination.LinkTargetInfoSheet
 import com.resurrect.xperi_r.ui.destination.LinkTargetList
 import com.resurrect.xperi_r.ui.destination.LockscreenShortcutSelection
 import com.resurrect.xperi_r.ui.destination.LockscreenShortcutSettings
+import com.resurrect.xperi_r.ui.destination.PerAppRefreshRateAppSelection
+import com.resurrect.xperi_r.ui.destination.PerAppRefreshRateHzSelection
+import com.resurrect.xperi_r.ui.destination.PerAppRefreshRateSettings
 import com.resurrect.xperi_r.ui.destination.PermissionSetup
 import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
 import com.resurrect.xperi_r.util.RELEASES_PAGE_INTENT
@@ -95,8 +101,10 @@ class MainActivity : ComponentActivity() {
             val navBackStackEntry by navController.currentBackStackEntryAsState()
             val scrollState = rememberTopAppBarState()
             val scrollBehavior = when (navBackStackEntry?.destination?.route) {
-                // Disable scroll effect because tabs
-                Screen.AssistantLaunchSelection.route, Screen.LockscreenShortcutSelection.route -> null
+                Screen.AssistantLaunchSelection.route,
+                Screen.LockscreenShortcutSelection.route,
+                Screen.CameraKeyActionSelection.route,
+                -> null
 
                 else -> TopAppBarDefaults.pinnedScrollBehavior(scrollState)
             }
@@ -196,6 +204,36 @@ class MainActivity : ComponentActivity() {
                                 navController.popBackStack()
                             }
                         }
+                        composable(Screen.CameraKeyOverriderSettings.route) {
+                            CameraKeyOverriderSettings(navController, innerPadding)
+                        }
+                        composable(Screen.CameraKeyActionSelection.route) {
+                            val target = Screen.CameraKeyActionSelection.getTarget(it)
+                            CameraKeyActionSelection(
+                                navController = navController,
+                                contentPadding = innerPadding,
+                                target = target,
+                                mainViewModel = viewModel,
+                            )
+                        }
+                        composable(Screen.PerAppRefreshRateSettings.route) {
+                            PerAppRefreshRateSettings(navController, innerPadding)
+                        }
+                        composable(Screen.PerAppRefreshRateAppSelection.route) {
+                            PerAppRefreshRateAppSelection(
+                                navController = navController,
+                                contentPadding = innerPadding,
+                                mainViewModel = viewModel,
+                            )
+                        }
+                        composable(Screen.PerAppRefreshRateHzSelection.route) {
+                            val packageName = Screen.PerAppRefreshRateHzSelection.getPackageName(it)
+                            PerAppRefreshRateHzSelection(
+                                navController = navController,
+                                contentPadding = innerPadding,
+                                packageName = packageName,
+                            )
+                        }
 
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                             composable(Screen.AndroidAppLinkSettings.route) {
@@ -277,6 +315,23 @@ private fun getAppBarTitle(
     Screen.UnapprovedLinkTargetList.route -> stringResource(id = R.string.unapproved_link_target_title)
 
     Screen.LinkTargetInfoSheet.route -> ""
+
+    Screen.CameraKeyOverriderSettings.route -> stringResource(id = R.string.camera_key_overrider_title)
+
+    Screen.CameraKeyActionSelection.route -> {
+        when (navBackStackEntry.arguments?.getString("target")) {
+            CameraKeyActionTarget.FOCUS -> stringResource(id = R.string.camera_key_half_press_title)
+            CameraKeyActionTarget.SHUTTER -> stringResource(id = R.string.camera_key_full_press_title)
+            CameraKeyActionTarget.LONG_PRESS -> stringResource(id = R.string.camera_key_long_press_title)
+            else -> stringResource(id = R.string.camera_key_overrider_title)
+        }
+    }
+
+    Screen.PerAppRefreshRateSettings.route -> stringResource(id = R.string.per_app_refresh_rate_title)
+
+    Screen.PerAppRefreshRateAppSelection.route -> stringResource(id = R.string.per_app_refresh_rate_add_app)
+
+    Screen.PerAppRefreshRateHzSelection.route -> stringResource(id = R.string.per_app_refresh_rate_title)
 
     else -> stringResource(id = R.string.app_name)
 }
@@ -368,6 +423,39 @@ private fun RowScope.MainActivityActions(
                             scope.launch {
                                 XperiRApplication.prefs.setLockscreenAction(key, null)
                                 Settings.Secure.putString(context.contentResolver, key, null)
+                            }
+                        }
+                        showPopup = false
+                        navController.popBackStack()
+                    },
+                )
+            }
+        }
+
+        Screen.CameraKeyActionSelection.route -> {
+            menuItems += {
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            text = stringResource(id = R.string.reset_to_default),
+                            overflow = TextOverflow.Ellipsis,
+                            maxLines = 1,
+                        )
+                    },
+                    onClick = {
+                        val target = navBackStackEntry?.arguments?.getString("target")
+                        if (target != null) {
+                            scope.launch {
+                                when (target) {
+                                    CameraKeyActionTarget.FOCUS -> XperiRApplication.prefs.setCameraFocusAction(null)
+                                    CameraKeyActionTarget.SHUTTER -> XperiRApplication.prefs.setCameraShutterAction(null)
+                                    CameraKeyActionTarget.LONG_PRESS -> XperiRApplication.prefs.setCameraLongPressAction(null)
+                                }
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.assistant_action_reset_toast),
+                                    Toast.LENGTH_SHORT,
+                                ).show()
                             }
                         }
                         showPopup = false
