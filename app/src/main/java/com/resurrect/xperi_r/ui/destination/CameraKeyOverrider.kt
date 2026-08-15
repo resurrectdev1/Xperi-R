@@ -94,6 +94,7 @@ fun CameraKeyActionSelection(
     contentPadding: PaddingValues,
     target: String,
     modifier: Modifier = Modifier,
+    @Suppress("ktlint:compose:vm-forwarding-check")
     mainViewModel: MainActivityViewModel = viewModel(),
 ) {
     val prefs = XperiRApplication.prefs
