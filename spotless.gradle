@@ -8,7 +8,10 @@ spotless {
 
         ktlint()
             .customRuleSets(["io.nlopez.compose.rules:ktlint:0.4.22"])
-            .editorConfigOverride("ktlint_function_naming_ignore_when_annotated_with":"Composable")
+            .editorConfigOverride([
+                "ktlint_function_naming_ignore_when_annotated_with": "Composable",
+                "ktlint_standard_package-name": "disabled"
+            ])
         trimTrailingWhitespace()
         leadingTabsToSpaces()
         endWithNewline()
