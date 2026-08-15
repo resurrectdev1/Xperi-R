@@ -28,7 +28,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.getSystemService
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.feature.FlipToShush
@@ -41,6 +40,7 @@ import com.resurrect.xperi_r.ui.component.SoftDivider
 import com.resurrect.xperi_r.ui.component.SwitchPreference
 import com.resurrect.xperi_r.util.AssistButtonPrefs
 import com.resurrect.xperi_r.util.highlightSettingsTo
+import kotlinx.coroutines.launch
 
 @Composable
 fun Home(

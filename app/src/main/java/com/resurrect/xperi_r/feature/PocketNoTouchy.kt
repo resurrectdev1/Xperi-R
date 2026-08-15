@@ -18,12 +18,12 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.launch
-import logcat.logcat
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.activity.PocketNoTouchyActivity
 import com.resurrect.xperi_r.feature.PocketNoTouchy.Companion.PROXIMITY_LISTEN_DURATION
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
+import logcat.logcat
 import java.util.concurrent.atomic.AtomicBoolean
 
 class PocketNoTouchy(

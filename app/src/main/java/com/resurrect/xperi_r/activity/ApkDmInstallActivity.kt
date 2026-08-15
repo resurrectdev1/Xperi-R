@@ -46,11 +46,11 @@ import androidx.core.content.IntentCompat
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.lifecycle.lifecycleScope
 import androidx.profileinstaller.DexProfileTranscoder
+import com.resurrect.xperi_r.R
+import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import com.resurrect.xperi_r.R
-import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
 import java.io.File
 
 class ApkDmInstallActivity : ComponentActivity() {

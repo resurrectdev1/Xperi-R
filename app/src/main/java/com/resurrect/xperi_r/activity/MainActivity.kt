@@ -51,12 +51,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.oss.licenses.v2.OssLicensesMenuActivity
-import kotlinx.coroutines.launch
-import logcat.LogPriority
-import logcat.logcat
-import soup.compose.material.motion.animation.materialSharedAxisXIn
-import soup.compose.material.motion.animation.materialSharedAxisXOut
-import soup.compose.material.motion.animation.rememberSlideDistance
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.feature.LockscreenShortcutHelper.Companion.LOCKSCREEN_LEFT_BUTTON
@@ -77,6 +71,12 @@ import com.resurrect.xperi_r.util.RELEASES_PAGE_INTENT
 import com.resurrect.xperi_r.util.isRootAvailable
 import com.resurrect.xperi_r.util.openDefaultAppsSettings
 import com.resurrect.xperi_r.util.openOpenByDefaultSettings
+import kotlinx.coroutines.launch
+import logcat.LogPriority
+import logcat.logcat
+import soup.compose.material.motion.animation.materialSharedAxisXIn
+import soup.compose.material.motion.animation.materialSharedAxisXOut
+import soup.compose.material.motion.animation.rememberSlideDistance
 import kotlin.system.exitProcess
 
 class MainActivity : ComponentActivity() {

@@ -28,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.feature.PocketNoTouchy
 import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
+import kotlinx.coroutines.launch
 
 class PocketNoTouchyActivity : ComponentActivity() {
 

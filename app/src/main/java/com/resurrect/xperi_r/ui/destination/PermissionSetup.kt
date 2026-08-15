@@ -36,14 +36,14 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.resurrect.xperi_r.R
+import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
+import com.resurrect.xperi_r.util.createShareTextIntent
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import logcat.logcat
-import com.resurrect.xperi_r.R
-import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
-import com.resurrect.xperi_r.util.createShareTextIntent
 
 @Composable
 fun PermissionSetup(
@@ -81,7 +81,7 @@ fun PermissionSetup(
             PermissionSetupNoRoot(command = command)
         }
     }
-    
+
     LaunchedEffect(true, onFinishSetup) {
         launch(Dispatchers.Default) {
             while (context.checkSelfPermission(permissionName) != PackageManager.PERMISSION_GRANTED) {

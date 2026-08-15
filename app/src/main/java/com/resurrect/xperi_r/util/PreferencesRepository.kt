@@ -1,17 +1,17 @@
 package com.resurrect.xperi_r.util
 
 import androidx.datastore.core.DataStore
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
-import logcat.LogPriority
-import logcat.logcat
 import com.resurrect.xperi_r.Preferences
 import com.resurrect.xperi_r.feature.Action
 import com.resurrect.xperi_r.feature.CameraButtonPrefs
 import com.resurrect.xperi_r.feature.LockscreenShortcutHelper
 import com.resurrect.xperi_r.feature.PerAppRefreshRateController
 import com.resurrect.xperi_r.feature.PerAppRefreshRatePrefs
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.map
+import logcat.LogPriority
+import logcat.logcat
 import java.io.IOException
 
 class PreferencesRepository(

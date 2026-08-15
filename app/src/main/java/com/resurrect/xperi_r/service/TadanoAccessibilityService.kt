@@ -1,7 +1,7 @@
 package com.resurrect.xperi_r.service
 
-import android.accessibilityservice.AccessibilityServiceInfo
 import android.accessibilityservice.AccessibilityService
+import android.accessibilityservice.AccessibilityServiceInfo
 import android.content.Intent
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
@@ -10,13 +10,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ServiceLifecycleDispatcher
-import logcat.logcat
 import com.resurrect.xperi_r.feature.CameraKeyOverrider
 import com.resurrect.xperi_r.feature.FlipToShush
 import com.resurrect.xperi_r.feature.GAKeyOverrider
 import com.resurrect.xperi_r.feature.LockscreenShortcutHelper
 import com.resurrect.xperi_r.feature.PerAppRefreshRateController
 import com.resurrect.xperi_r.feature.PocketNoTouchy
+import logcat.logcat
 
 class TadanoAccessibilityService :
     AccessibilityService(),
@@ -35,7 +35,6 @@ class TadanoAccessibilityService :
         isActive = true
 
         if (CameraKeyOverrider.isSupported) {
-
             serviceInfo =
                 serviceInfo.apply {
                     flags = flags or AccessibilityServiceInfo.FLAG_REQUEST_FILTER_KEY_EVENTS

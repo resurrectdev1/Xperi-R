@@ -22,14 +22,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.resurrect.xperi_r.XperiRApplication
+import com.resurrect.xperi_r.util.DeviceModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import logcat.logcat
-import com.resurrect.xperi_r.XperiRApplication
-import com.resurrect.xperi_r.util.DeviceModel
 import java.math.BigDecimal
 import java.math.RoundingMode
 import kotlin.math.acos

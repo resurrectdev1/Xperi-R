@@ -9,10 +9,10 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.resurrect.xperi_r.XperiRApplication
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.launch
 import logcat.logcat
-import com.resurrect.xperi_r.XperiRApplication
 
 class CameraKeyOverrider(
     private val lifecycleOwner: LifecycleOwner,
@@ -68,6 +68,7 @@ class CameraKeyOverrider(
                 handler.postDelayed(longPressRunnable, LONG_PRESS_TIMEOUT_MS)
                 return true
             }
+
             KeyEvent.ACTION_UP -> {
                 handler.removeCallbacks(longPressRunnable)
                 if (longPressFired) {
@@ -87,6 +88,7 @@ class CameraKeyOverrider(
             is IntentAction, is DigitalAssistantAction -> {
                 action.runAction(service)
             }
+
             else -> action.runAction(service)
         }
     }

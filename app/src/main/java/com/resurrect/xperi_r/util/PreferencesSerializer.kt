@@ -2,6 +2,7 @@ package com.resurrect.xperi_r.util
 
 import androidx.datastore.core.CorruptionException
 import androidx.datastore.core.Serializer
+import com.resurrect.xperi_r.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -9,7 +10,6 @@ import kotlinx.serialization.SerializationException
 import kotlinx.serialization.decodeFromByteArray
 import kotlinx.serialization.encodeToByteArray
 import kotlinx.serialization.protobuf.ProtoBuf
-import com.resurrect.xperi_r.Preferences
 import java.io.InputStream
 import java.io.OutputStream
 

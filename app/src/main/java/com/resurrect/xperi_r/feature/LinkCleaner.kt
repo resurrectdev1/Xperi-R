@@ -4,9 +4,9 @@ import android.content.Context
 import android.net.Uri
 import android.widget.Toast
 import androidx.core.net.toUri
+import com.resurrect.xperi_r.R
 import logcat.LogPriority
 import logcat.logcat
-import com.resurrect.xperi_r.R
 import java.net.URLDecoder
 
 object LinkCleaner {
@@ -49,7 +49,7 @@ object LinkCleaner {
             null
         }
     }
-    
+
     fun cleanLink(
         context: Context,
         oldLink: String,

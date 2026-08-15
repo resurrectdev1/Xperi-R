@@ -12,13 +12,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.resurrect.xperi_r.XperiRApplication
+import com.resurrect.xperi_r.util.canWriteSecureSettings
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import logcat.logcat
-import com.resurrect.xperi_r.XperiRApplication
-import com.resurrect.xperi_r.util.canWriteSecureSettings
 
 class LockscreenShortcutHelper(
     private val lifecycleOwner: LifecycleOwner,

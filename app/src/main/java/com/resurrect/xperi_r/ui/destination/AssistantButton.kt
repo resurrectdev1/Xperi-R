@@ -33,7 +33,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.activity.MainActivityViewModel
@@ -60,6 +59,7 @@ import com.resurrect.xperi_r.util.AssistButtonPrefs
 import com.resurrect.xperi_r.util.canReadSystemLogs
 import com.resurrect.xperi_r.util.canWriteSecureSettings
 import com.resurrect.xperi_r.util.setAsAssistantAction
+import kotlinx.coroutines.launch
 
 @Composable
 fun AssistantButtonSettings(

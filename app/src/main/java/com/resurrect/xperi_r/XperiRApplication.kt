@@ -12,14 +12,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import androidx.datastore.migrations.SharedPreferencesMigration
 import androidx.datastore.migrations.SharedPreferencesView
-import com.topjohnwu.superuser.Shell
-import logcat.AndroidLogcatLogger
-import logcat.LogPriority
 import com.resurrect.xperi_r.activity.LinkTargetChooserActivity
 import com.resurrect.xperi_r.service.TeaTileService
 import com.resurrect.xperi_r.util.PreferencesRepository
 import com.resurrect.xperi_r.util.PreferencesSerializer
 import com.resurrect.xperi_r.util.isRootAvailable
+import com.topjohnwu.superuser.Shell
+import logcat.AndroidLogcatLogger
+import logcat.LogPriority
 
 private val Context.preferencesStore: DataStore<Preferences> by dataStore(
     fileName = "preferences.pb",

@@ -7,11 +7,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.resurrect.xperi_r.XperiRApplication
 import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.launch
 import logcat.LogPriority
 import logcat.logcat
-import com.resurrect.xperi_r.XperiRApplication
 
 class PerAppRefreshRateController(
     private val lifecycleOwner: LifecycleOwner,
@@ -50,9 +50,9 @@ class PerAppRefreshRateController(
     }
 
     private fun restoreDefaultRate() {
-        logcat { "Restoring default refresh rate ($defaultPeakRefreshRateHz Hz)" }
+        logcat { "Restoring default refresh rate ($DEFAULT_PEAK_REFRESH_RATE_HZ Hz)" }
         Shell.cmd(
-            "settings put system peak_refresh_rate $defaultPeakRefreshRateHz",
+            "settings put system peak_refresh_rate $DEFAULT_PEAK_REFRESH_RATE_HZ",
             "settings put system min_refresh_rate 60",
         ).submit()
     }
@@ -78,18 +78,17 @@ class PerAppRefreshRateController(
 
     companion object {
 
-        const val defaultPeakRefreshRateHz = 120
+        const val DEFAULT_PEAK_REFRESH_RATE_HZ = 120
 
         fun serialize(map: Map<String, Int>): String = map.entries.joinToString(",") { "${it.key}:${it.value}" }
 
-        fun deserialize(raw: String): Map<String, Int> =
-            raw.split(",")
-                .mapNotNull { entry ->
-                    val parts = entry.split(":")
-                    if (parts.size != 2) return@mapNotNull null
-                    val hz = parts[1].toIntOrNull() ?: return@mapNotNull null
-                    parts[0] to hz
-                }.toMap()
+        fun deserialize(raw: String): Map<String, Int> = raw.split(",")
+            .mapNotNull { entry ->
+                val parts = entry.split(":")
+                if (parts.size != 2) return@mapNotNull null
+                val hz = parts[1].toIntOrNull() ?: return@mapNotNull null
+                parts[0] to hz
+            }.toMap()
     }
 }
 

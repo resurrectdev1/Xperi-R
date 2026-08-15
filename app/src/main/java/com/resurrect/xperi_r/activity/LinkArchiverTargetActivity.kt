@@ -4,9 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.core.net.toUri
+import com.resurrect.xperi_r.feature.LinkCleaner
 import logcat.LogPriority
 import logcat.logcat
-import com.resurrect.xperi_r.feature.LinkCleaner
 
 class LinkArchiverTargetActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

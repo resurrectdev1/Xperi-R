@@ -11,12 +11,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.window.Dialog
 import androidx.core.content.getSystemService
-import logcat.LogPriority
-import logcat.logcat
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.feature.LinkCleaner
 import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
 import com.resurrect.xperi_r.util.shareLink
+import logcat.LogPriority
+import logcat.logcat
 
 class LinkCleanerTargetActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -39,14 +39,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.topjohnwu.superuser.CallbackList
-import com.topjohnwu.superuser.Shell
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import logcat.LogPriority
-import logcat.asLog
-import logcat.logcat
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.activity.GAKeyOverriderKeyguardActivity
@@ -57,6 +49,14 @@ import com.resurrect.xperi_r.util.DeviceModel
 import com.resurrect.xperi_r.util.canReadSystemLogs
 import com.resurrect.xperi_r.util.isPackageInstalled
 import com.resurrect.xperi_r.util.loadLabel
+import com.topjohnwu.superuser.CallbackList
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import logcat.LogPriority
+import logcat.asLog
+import logcat.logcat
 import java.net.URISyntaxException
 
 class GAKeyOverrider(

@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.net.toUri
-import logcat.LogPriority
-import logcat.logcat
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.feature.LinkCleaner
 import com.resurrect.xperi_r.util.shareLink
+import logcat.LogPriority
+import logcat.logcat
 
 class FixTweetTargetActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

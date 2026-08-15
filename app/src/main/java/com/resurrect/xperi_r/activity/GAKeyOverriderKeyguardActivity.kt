@@ -9,13 +9,13 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.resurrect.xperi_r.XperiRApplication
+import com.resurrect.xperi_r.ui.destination.KeyguardUnlock
+import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import com.resurrect.xperi_r.XperiRApplication
-import com.resurrect.xperi_r.ui.destination.KeyguardUnlock
-import com.resurrect.xperi_r.ui.theme.XperiRM3Theme
 
 class GAKeyOverriderKeyguardActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

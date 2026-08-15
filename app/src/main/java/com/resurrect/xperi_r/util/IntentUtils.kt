@@ -7,9 +7,9 @@ import android.content.pm.PackageManager
 import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
 import androidx.core.os.bundleOf
+import com.resurrect.xperi_r.feature.IntentAction
 import logcat.LogPriority
 import logcat.logcat
-import com.resurrect.xperi_r.feature.IntentAction
 
 val RELEASES_PAGE_INTENT = Intent(ACTION_VIEW, "https://github.com/resurrectdev1/Xperi-R/releases/latest".toUri())
 const val EXTRA_FRAGMENT_ARG_KEY = ":settings:fragment_args_key"

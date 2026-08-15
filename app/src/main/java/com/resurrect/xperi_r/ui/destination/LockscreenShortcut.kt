@@ -23,7 +23,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import kotlinx.coroutines.launch
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
 import com.resurrect.xperi_r.activity.EmptyShortcutActivity
@@ -40,6 +39,7 @@ import com.resurrect.xperi_r.ui.component.WriteSettingsCard
 import com.resurrect.xperi_r.util.canWriteSecureSettings
 import com.resurrect.xperi_r.util.loadLabel
 import com.resurrect.xperi_r.util.toComponentName
+import kotlinx.coroutines.launch
 
 @Composable
 fun LockscreenShortcutSettings(

@@ -12,11 +12,6 @@ import androidx.core.content.getSystemService
 import androidx.core.graphics.drawable.toBitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
 import com.resurrect.xperi_r.item.ApplicationItem
 import com.resurrect.xperi_r.item.LinkHandlerAppItem
 import com.resurrect.xperi_r.item.ShortcutCreatorItem
@@ -24,6 +19,11 @@ import com.resurrect.xperi_r.ui.IconDrawableShadowWrapper
 import com.resurrect.xperi_r.util.getApplicationInfoCompat
 import com.resurrect.xperi_r.util.getInstalledApplicationsCompat
 import com.resurrect.xperi_r.util.queryIntentActivitiesCompat
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class MainActivityViewModel(
     application: Application,
