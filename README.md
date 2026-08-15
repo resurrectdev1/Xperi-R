@@ -11,9 +11,6 @@ Huge thanks & Fork of (https://github.com/ivaniskandar/shouko)
 <img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_1.png">
 <img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_2.png">
 <img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_3.png">
-<img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_4.png">
-<img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_5.png">
-<img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_6.png">
 
 ### How does it work?
 
