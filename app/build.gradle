@@ -86,7 +86,7 @@ dependencies {
     implementation "androidx.profileinstaller:profileinstaller:1.4.1"
     implementation "com.github.topjohnwu.libsu:core:5.2.2"
     implementation 'com.squareup.logcat:logcat:0.4'
-    implementation 'com.google.android.gms:play-services-oss-licenses:17.4.0'
+    implementation 'com.google.android.gms:play-services-oss-licenses:17.5.1'
     implementation "io.github.fornewid:material-motion-compose-core:2.0.1"
 
     implementation platform("androidx.compose:compose-bom-alpha:$compose_bom_version")
