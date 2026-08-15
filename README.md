@@ -1,5 +1,5 @@
 <p align="center">
-<img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/master/assets/app_icon.png">
+<img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/app_icon.png">
 </p>
 <h1 align="center">Xperi-R</h1>
 <h2 align="center">Xpand the feature set of you're Xperia.</h2>
