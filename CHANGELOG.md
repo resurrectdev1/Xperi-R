@@ -25,7 +25,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Changed
 
-* Forked from [Shouko](https://github.com/ivaniskandar/shouko) — app ID, app name, and theme rebranded to Xperi-R throughout
+* Forked from [Shouko](https://github.com/ivaniskandar/shouko); app ID, app name, and theme rebranded to Xperi-R throughout
 * README rewritten with screenshots, download links (Obtainium, GitHub Releases, F-Droid), and a link to this changelog
 * Code cleanup
 
