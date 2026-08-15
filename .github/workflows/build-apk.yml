@@ -30,6 +30,9 @@ jobs:
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Analyze
         run: ./gradlew spotlessCheck --stacktrace
 
@@ -55,6 +58,9 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           cache-encryption-key: ${{ secrets.GRADLE_ENCRYPTION_KEY }}
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Build APK
         run: ./gradlew assembleRelease --stacktrace
