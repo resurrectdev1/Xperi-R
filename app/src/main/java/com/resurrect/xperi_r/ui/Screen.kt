@@ -32,4 +32,22 @@ sealed class Screen(
 
         fun getPackageName(backStackEntry: NavBackStackEntry): String = backStackEntry.arguments!!.getString("packageName")!!
     }
+
+    data object CameraKeyOverriderSettings : Screen("camera_key_overrider_settings")
+
+    data object CameraKeyActionSelection : Screen("camera_key_action_selection/{target}") {
+        fun createRoute(target: String) = "camera_key_action_selection/$target"
+
+        fun getTarget(backStackEntry: NavBackStackEntry): String = backStackEntry.arguments!!.getString("target")!!
+    }
+
+    data object PerAppRefreshRateSettings : Screen("per_app_refresh_rate_settings")
+
+    data object PerAppRefreshRateAppSelection : Screen("per_app_refresh_rate_app_selection")
+
+    data object PerAppRefreshRateHzSelection : Screen("per_app_refresh_rate_hz_selection/{packageName}") {
+        fun createRoute(packageName: String) = "per_app_refresh_rate_hz_selection/$packageName"
+
+        fun getPackageName(backStackEntry: NavBackStackEntry): String = backStackEntry.arguments!!.getString("packageName")!!
+    }
 }
