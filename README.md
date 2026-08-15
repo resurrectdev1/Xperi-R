@@ -18,7 +18,25 @@ Huge thanks & Fork of (https://github.com/ivaniskandar/shouko)
 
 ### Features
 
-(Features)
+🎥 Camera Key Overrider: Remap the hardware camera key's half-press (focus), full-press (shutter), and long-press to custom actions.
+
+🖐️ Prevent Accidental Touch: Stop unintentional key presses or screen taps while your phone is in a pocket or bag.
+
+📵 Flip to Shush: Turn on Do Not Disturb just by placing your phone face down on a flat surface.
+
+🎛 Per-App Refresh Rate: Cap the screen refresh rate while specific apps are in the foreground, restored automatically when you leave them (root required).
+
+🔒 Lockscreen Shortcuts: Customize the left and right lockscreen shortcuts to launch the apps or actions you actually use.
+
+🎙️ Assistant Button: Reassign the Assistant button to a custom action, and optionally hide its sound cue.
+
+☕ Coffee & Tea Tiles: Keep your phone awake while looking at it with Coffee, or keep it awake with the screen off with Tea, both from a quick settings tile.
+
+🔗 Link Cleaner: Strip tracking parameters from shared links.
+
+💬 Click to WA Chat: Turn a copied phone number into a one-tap WhatsApp chat link.
+
+🌐 Android App Link Chooser: Take back control over which app opens a shared link with a custom chooser and per-app link target approval.
 
 ## What's New
 
