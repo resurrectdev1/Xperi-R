@@ -2,7 +2,7 @@
 <img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/app_icon.png">
 </p>
 <h1 align="center">Xperi-R</h1>
-<h2 align="center">Xpand the feature set of you're Xperia.</h2>
+<h2 align="center">Xpand the feature set of your Xperia.</h2>
 
 Xpand your Xperia with Xperia-R, Reviving your device & bringing custom features to perfect you're Xperiance.
 Huge thanks & Fork of (https://github.com/ivaniskandar/shouko)
