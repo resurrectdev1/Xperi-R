@@ -34,10 +34,6 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 * Old Shouko app icon and branding assets
 * Old CI workflow (replaced by `build-apk.yml`)
 
-### Notes
-
-* Camera key overrider and per-app refresh rate control aren't in the settings UI yet but are planed to come in a future release
-
 ---
 
 <!--
