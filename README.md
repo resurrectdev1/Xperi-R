@@ -41,7 +41,7 @@ alt="Get it on Obtainium" align="center" height="80" /></a>
 
 ## Support The App
 
-**Grove** is free forever: no subscriptions, no ads, and no data harvesting. Just you and your trees. If **Grove** has helped you or someone you know stay clean and build better habits, consider supporting its continued development so it can keep growing.
+**Xperi-R** is free forever: no subscriptions, no ads, and no data harvesting. Just you and your Xperia. If **Xperi-R** has helped you or someone you know with your Xperia device, consider supporting its continued development so it can keep growing.
 
 [<img src="https://img.shields.io/badge/Buy_Me_A_Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black" width="auto" height="100" alt="Buy me a Coffee">](https://buymeacoffee.com/resurrect)
 
