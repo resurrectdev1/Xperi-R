@@ -16,8 +16,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-* Camera key overrider — remap the hardware camera key's half-press, full-press, and long-press to custom actions
-* Per-app refresh rate control — cap the display refresh rate for specific apps, restored automatically when you leave them
+* Camera key overrider; remap the hardware camera key's half-press, full-press, and long-press to custom actions
+* Per-app refresh rate control; cap the display refresh rate for specific apps, restored automatically when you leave them
 * Xperia 1 V support
 * New app icon and branding assets
 * Issue templates, PR template, and Dependabot config for the repo
