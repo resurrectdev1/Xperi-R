@@ -125,6 +125,7 @@ fun AssistantActionSelection(
     navController: NavController,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier,
+    @Suppress("ktlint:compose:vm-forwarding-check")
     mainViewModel: MainActivityViewModel = viewModel(),
 ) {
     val prefs = XperiRApplication.prefs
@@ -364,4 +365,3 @@ fun ActionSelectionPager(
         }
     }
 }
-
