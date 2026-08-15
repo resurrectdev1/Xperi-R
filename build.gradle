@@ -1,0 +1,22 @@
+buildscript {
+    ext {
+        kotlin_version = "2.3.10"
+        compose_bom_version = '2026.02.01'
+        protobuf_version = '4.34.0'
+    }
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:9.1.0'
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath 'com.google.android.gms:oss-licenses-plugin:0.10.10'
+        classpath 'com.diffplug.spotless:spotless-plugin-gradle:8.3.0'
+    }
+}
+
+subprojects {
+    apply from: "$project.rootDir/spotless.gradle"
+}
