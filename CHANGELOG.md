@@ -16,15 +16,27 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-* Here
+* Camera key overrider — remap the hardware camera key's half-press, full-press, and long-press to custom actions
+* Per-app refresh rate control — cap the display refresh rate for specific apps, restored automatically when you leave them
+* Xperia 1 V support
+* New app icon and branding assets
+* Issue templates, PR template, and Dependabot config for the repo
+* New `build-apk.yml` CI workflow
 
 ### Changed
 
-* Here
+* Forked from [Shouko](https://github.com/ivaniskandar/shouko) — app ID, app name, and theme rebranded to Xperi-R throughout
+* README rewritten with screenshots, download links (Obtainium, GitHub Releases, F-Droid), and a link to this changelog
+* Code cleanup
 
-### Fixed
+### Removed
 
-* Here
+* Old Shouko app icon and branding assets
+* Old CI workflow (replaced by `build-apk.yml`)
+
+### Notes
+
+* Camera key overrider and per-app refresh rate control aren't in the settings UI yet but are planed to come in a future release
 
 ---
 
