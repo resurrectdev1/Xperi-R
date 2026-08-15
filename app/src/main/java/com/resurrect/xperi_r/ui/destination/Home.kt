@@ -30,6 +30,7 @@ import androidx.core.content.getSystemService
 import androidx.navigation.NavController
 import com.resurrect.xperi_r.R
 import com.resurrect.xperi_r.XperiRApplication
+import com.resurrect.xperi_r.feature.CameraKeyOverrider
 import com.resurrect.xperi_r.feature.FlipToShush
 import com.resurrect.xperi_r.feature.GAKeyOverrider
 import com.resurrect.xperi_r.service.TadanoAccessibilityService
@@ -97,7 +98,6 @@ fun Home(
                     val isGrantedDndAccess = context.getSystemService<NotificationManager>()!!
                         .isNotificationPolicyAccessGranted
                     if (isGrantedDndAccess) {
-                        // Always true becos
                         scope.launch { prefs.setFlipToShushEnabled(true) }
                     }
                 }
@@ -145,6 +145,28 @@ fun Home(
                     enabled = TadanoAccessibilityService.isActive,
                     onPreferenceClick = {
                         navController.navigate(Screen.LockscreenShortcutSettings.route)
+                    },
+                )
+            }
+            if (CameraKeyOverrider.isSupported) {
+                item {
+                    Preference(
+                        title = stringResource(R.string.camera_key_overrider_title),
+                        subtitle = stringResource(R.string.camera_key_overrider_desc),
+                        enabled = TadanoAccessibilityService.isActive,
+                        onPreferenceClick = {
+                            navController.navigate(Screen.CameraKeyOverriderSettings.route)
+                        },
+                    )
+                }
+            }
+            item {
+                Preference(
+                    title = stringResource(R.string.per_app_refresh_rate_title),
+                    subtitle = stringResource(R.string.per_app_refresh_rate_desc),
+                    enabled = TadanoAccessibilityService.isActive,
+                    onPreferenceClick = {
+                        navController.navigate(Screen.PerAppRefreshRateSettings.route)
                     },
                 )
             }
