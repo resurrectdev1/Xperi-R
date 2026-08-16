@@ -14,7 +14,12 @@ Huge thanks & Fork of (https://github.com/ivaniskandar/shouko)
 
 ### How does it work?
 
-(Explanation)
+Some of Xperi-R's features (like reading hardware key events or changing secure settings) need Android permissions that apps can't just ask for example READ_LOGS & WRITE_SECURE_SETTINGS. To unlock these, Xperi-R walks you through a one-time setup step per feature:
+
+Rooted device? Tap the button on-screen and the app grants itself the permission via su.
+Not rooted? The app shows you a single adb shell pm grant ... command. Tap the card to copy or share it, run it once from a computer with ADB set up, and that's all no root needed.
+
+Once granted, permissions persist across reboots (until you revoke them or reinstall), so this is a one-time setup per feature, not something you'll be doing on every launch. From there, open any feature from the home screen, flip it on, and configure the behavior to match how you actually use your Xperia.
 
 ### Features
 
