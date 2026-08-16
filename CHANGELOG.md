@@ -12,7 +12,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
-* Add vibration to camera key overide (To be done)
+* Add vibration to camera key overide
 * Social banner preview
 
 ---
