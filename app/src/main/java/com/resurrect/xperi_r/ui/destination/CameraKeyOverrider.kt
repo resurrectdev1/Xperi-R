@@ -1,114 +1,143 @@
-package com.resurrect.xperi_r.ui.destination
+package com.resurrect.xperi_r.feature
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
-import com.resurrect.xperi_r.R
+import android.accessibilityservice.AccessibilityService
+import android.os.Handler
+import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.view.KeyEvent
+import androidx.core.content.getSystemService
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.resurrect.xperi_r.XperiRApplication
-import com.resurrect.xperi_r.activity.MainActivityViewModel
-import com.resurrect.xperi_r.feature.CameraButtonPrefs
-import com.resurrect.xperi_r.service.TadanoAccessibilityService
-import com.resurrect.xperi_r.ui.Screen
-import com.resurrect.xperi_r.ui.component.Preference
-import com.resurrect.xperi_r.ui.component.SwitchPreference
+import com.topjohnwu.superuser.Shell
 import kotlinx.coroutines.launch
+import logcat.logcat
 
-object CameraKeyActionTarget {
-    const val FOCUS = "focus"
-    const val SHUTTER = "shutter"
-    const val LONG_PRESS = "long_press"
-}
+class CameraKeyOverrider(
+    private val lifecycleOwner: LifecycleOwner,
+    private val service: AccessibilityService,
+) : DefaultLifecycleObserver {
+    private var focusAction: Action? = null
+    private var shutterAction: Action? = null
+    private var longPressAction: Action? = null
+    private var enabled = false
 
-@Composable
-fun CameraKeyOverriderSettings(
-    navController: NavController,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val prefs = XperiRApplication.prefs
-    val cameraPrefs by prefs.cameraButtonFlow.collectAsState(initial = CameraButtonPrefs())
+    private val vibrator: Vibrator = service.getSystemService()!!
+    private val releaseVibrationEffect = VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE)
 
-    LazyColumn(
-        modifier = modifier.fillMaxSize(),
-        contentPadding = contentPadding,
-    ) {
-        item {
-            SwitchPreference(
-                title = stringResource(id = R.string.camera_key_overrider_title),
-                subtitle = stringResource(id = R.string.camera_key_overrider_desc),
-                checked = cameraPrefs.enabled,
-                enabled = TadanoAccessibilityService.isActive,
-                onCheckedChange = { scope.launch { prefs.setCameraButtonEnabled(it) } },
-            )
+    private val handler = Handler(Looper.getMainLooper())
+    private var cameraKeyDownAt = 0L
+    private var longPressFired = false
+    private var suppressNextSelfInjected = false
+
+    private val longPressRunnable = Runnable {
+        longPressFired = true
+        longPressAction?.let {
+            logcat { "Camera key long-press -> $it" }
+            it.runAction(service)
         }
-        item {
-            Preference(
-                title = stringResource(id = R.string.camera_key_half_press_title),
-                subtitle = cameraPrefs.focusAction?.getLabel(context)
-                    ?: stringResource(id = R.string.off),
-                enabled = cameraPrefs.enabled,
-                onPreferenceClick = {
-                    navController.navigate(Screen.CameraKeyActionSelection.createRoute(CameraKeyActionTarget.FOCUS))
-                },
-            )
+    }
+
+    fun onKeyEvent(event: KeyEvent): Boolean {
+        if (!enabled) return false
+
+        return when (event.keyCode) {
+            KeyEvent.KEYCODE_FOCUS -> handleFocusKey(event)
+            KeyEvent.KEYCODE_CAMERA -> handleCameraKey(event)
+            else -> false
         }
-        item {
-            Preference(
-                title = stringResource(id = R.string.camera_key_full_press_title),
-                subtitle = cameraPrefs.shutterAction?.getLabel(context)
-                    ?: stringResource(id = R.string.off),
-                enabled = cameraPrefs.enabled,
-                onPreferenceClick = {
-                    navController.navigate(Screen.CameraKeyActionSelection.createRoute(CameraKeyActionTarget.SHUTTER))
-                },
-            )
+    }
+
+    private fun handleFocusKey(event: KeyEvent): Boolean {
+        if (event.action != KeyEvent.ACTION_UP) return true
+        focusAction?.let {
+            logcat { "Camera key half-press -> $it" }
+            it.runAction(service)
         }
-        item {
-            Preference(
-                title = stringResource(id = R.string.camera_key_long_press_title),
-                subtitle = cameraPrefs.longPressAction?.getLabel(context)
-                    ?: stringResource(id = R.string.off),
-                enabled = cameraPrefs.enabled,
-                onPreferenceClick = {
-                    navController.navigate(Screen.CameraKeyActionSelection.createRoute(CameraKeyActionTarget.LONG_PRESS))
-                },
-            )
+        return true
+    }
+
+    private fun handleCameraKey(event: KeyEvent): Boolean {
+        if (suppressNextSelfInjected) {
+            suppressNextSelfInjected = false
+            return false
         }
+
+        when (event.action) {
+            KeyEvent.ACTION_DOWN -> {
+                cameraKeyDownAt = System.currentTimeMillis()
+                longPressFired = false
+                handler.postDelayed(longPressRunnable, LONG_PRESS_TIMEOUT_MS)
+                return true
+            }
+
+            KeyEvent.ACTION_UP -> {
+                handler.removeCallbacks(longPressRunnable)
+                performReleaseHapticFeedback()
+                if (longPressFired) {
+                    return true
+                }
+                runShutterAction()
+                return true
+            }
+        }
+        return true
+    }
+
+    private fun performReleaseHapticFeedback() {
+        vibrator.vibrate(releaseVibrationEffect)
+    }
+
+    private fun runShutterAction() {
+        val action = shutterAction ?: return
+        logcat { "Camera key full-press -> $action" }
+        when (action) {
+            is IntentAction, is DigitalAssistantAction -> {
+                action.runAction(service)
+            }
+
+            else -> action.runAction(service)
+        }
+    }
+
+    fun injectShutterKeyToForegroundApp() {
+        suppressNextSelfInjected = true
+        Shell.cmd("input keyevent ${KeyEvent.KEYCODE_CAMERA}").submit()
+    }
+
+    init {
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                XperiRApplication.prefs.cameraButtonFlow.collect {
+                    enabled = it.enabled
+                    focusAction = it.focusAction
+                    shutterAction = it.shutterAction
+                    longPressAction = it.longPressAction
+                    logcat { "CameraKeyOverrider enabled=$enabled" }
+                }
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(this)
+    }
+
+    override fun onDestroy(owner: LifecycleOwner) {
+        handler.removeCallbacks(longPressRunnable)
+    }
+
+    companion object {
+        private const val LONG_PRESS_TIMEOUT_MS = 500L
+
+        val isSupported = true
     }
 }
 
-@Suppress("ktlint:compose:vm-forwarding-check")
-@Composable
-fun CameraKeyActionSelection(
-    navController: NavController,
-    contentPadding: PaddingValues,
-    target: String,
-    modifier: Modifier = Modifier,
-    mainViewModel: MainActivityViewModel = viewModel(),
-) {
-    val prefs = XperiRApplication.prefs
-    ActionSelectionPager(
-        navController = navController,
-        contentPadding = contentPadding,
-        modifier = modifier,
-        mainViewModel = mainViewModel,
-        onActionSelected = { action ->
-            when (target) {
-                CameraKeyActionTarget.FOCUS -> prefs.setCameraFocusAction(action)
-                CameraKeyActionTarget.SHUTTER -> prefs.setCameraShutterAction(action)
-                CameraKeyActionTarget.LONG_PRESS -> prefs.setCameraLongPressAction(action)
-            }
-        },
-    )
-}
+data class CameraButtonPrefs(
+    val enabled: Boolean = false,
+    val focusAction: Action? = null,
+    val shutterAction: Action? = null,
+    val longPressAction: Action? = null,
+)
