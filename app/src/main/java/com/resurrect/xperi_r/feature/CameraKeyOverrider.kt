@@ -3,7 +3,10 @@ package com.resurrect.xperi_r.feature
 import android.accessibilityservice.AccessibilityService
 import android.os.Handler
 import android.os.Looper
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.view.KeyEvent
+import androidx.core.content.getSystemService
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -22,6 +25,9 @@ class CameraKeyOverrider(
     private var shutterAction: Action? = null
     private var longPressAction: Action? = null
     private var enabled = false
+
+    private val vibrator: Vibrator = service.getSystemService()!!
+    private val releaseVibrationEffect = VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE)
 
     private val handler = Handler(Looper.getMainLooper())
     private var cameraKeyDownAt = 0L
@@ -71,6 +77,7 @@ class CameraKeyOverrider(
 
             KeyEvent.ACTION_UP -> {
                 handler.removeCallbacks(longPressRunnable)
+                performReleaseHapticFeedback()
                 if (longPressFired) {
                     return true
                 }
@@ -79,6 +86,10 @@ class CameraKeyOverrider(
             }
         }
         return true
+    }
+
+    private fun performReleaseHapticFeedback() {
+        vibrator.vibrate(releaseVibrationEffect)
     }
 
     private fun runShutterAction() {
