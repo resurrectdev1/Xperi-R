@@ -5,7 +5,7 @@
 <h2 align="center">Xpand the feature set of your Xperia.</h2>
 
 Xpand your Xperia with Xperia-R, Reviving your device & bringing custom features to perfect you're Xperiance.
-Huge thanks & Fork of (https://github.com/ivaniskandar/shouko)
+Huge thanks & a Fork of (https://github.com/ivaniskandar/shouko)
 
 <p align="center">
 <img width="200" src="https://github.com/resurrectdev1/Xperi-R/blob/main/assets/screenshot_1.png">
