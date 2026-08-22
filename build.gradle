@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlin_version = "2.4.10"
-        compose_bom_version = '2026.02.01'
+        compose_bom_version = '2026.08.00'
         protobuf_version = '4.34.0'
     }
     repositories {
