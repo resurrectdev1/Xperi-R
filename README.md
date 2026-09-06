@@ -68,8 +68,6 @@ alt="Get it on Obtainium" align="center" height="80" /></a>
 
 ## Development
 
-(Instructions)
-
 See [CONTRIBUTING.md](CONTRIBUTING.md) for more on the project structure, code style, and setup details.
 
 ## License
