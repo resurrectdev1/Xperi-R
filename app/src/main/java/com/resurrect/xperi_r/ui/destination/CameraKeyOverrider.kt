@@ -85,6 +85,15 @@ fun CameraKeyOverriderSettings(
                 },
             )
         }
+        item {
+            SwitchPreference(
+                title = stringResource(id = R.string.camera_key_vibration_title),
+                subtitle = stringResource(id = R.string.camera_key_vibration_desc),
+                checked = cameraPrefs.vibrationEnabled,
+                enabled = cameraPrefs.enabled,
+                onCheckedChange = { scope.launch { prefs.setCameraButtonVibrationEnabled(it) } },
+            )
+        }
     }
 }
 
