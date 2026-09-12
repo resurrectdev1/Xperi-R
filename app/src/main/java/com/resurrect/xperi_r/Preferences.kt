@@ -22,4 +22,5 @@ data class Preferences(
     @ProtoNumber(13) val cameraLongPressAction: String = "",
     @ProtoNumber(14) val perAppRefreshRateEnabled: Boolean = false,
     @ProtoNumber(15) val perAppRefreshRateMap: String = "",
+    @ProtoNumber(16) val cameraButtonVibrationEnabled: Boolean = true,
 )
