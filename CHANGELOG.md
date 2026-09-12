@@ -13,6 +13,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 ### Added
 
 * Add vibration to camera key overide (to be done)
+* Uploaded to F-droid (to be done)
 * Social banner preview
 * Contributing.md (to be done)
 
