@@ -26,7 +26,10 @@ class CameraKeyOverrider(
     private var longPressAction: Action? = null
     private var enabled = false
 
+    private var vibrationEnabled = true
+
     private val vibrator: Vibrator = service.getSystemService()!!
+    private val pressVibrationEffect = VibrationEffect.createOneShot(15, VibrationEffect.DEFAULT_AMPLITUDE)
     private val releaseVibrationEffect = VibrationEffect.createOneShot(20, VibrationEffect.DEFAULT_AMPLITUDE)
 
     private val handler = Handler(Looper.getMainLooper())
@@ -71,6 +74,7 @@ class CameraKeyOverrider(
             KeyEvent.ACTION_DOWN -> {
                 cameraKeyDownAt = System.currentTimeMillis()
                 longPressFired = false
+                performPressHapticFeedback()
                 handler.postDelayed(longPressRunnable, LONG_PRESS_TIMEOUT_MS)
                 return true
             }
@@ -88,7 +92,13 @@ class CameraKeyOverrider(
         return true
     }
 
+    private fun performPressHapticFeedback() {
+        if (!vibrationEnabled) return
+        vibrator.vibrate(pressVibrationEffect)
+    }
+
     private fun performReleaseHapticFeedback() {
+        if (!vibrationEnabled) return
         vibrator.vibrate(releaseVibrationEffect)
     }
 
@@ -117,6 +127,7 @@ class CameraKeyOverrider(
                     focusAction = it.focusAction
                     shutterAction = it.shutterAction
                     longPressAction = it.longPressAction
+                    vibrationEnabled = it.vibrationEnabled
                     logcat { "CameraKeyOverrider enabled=$enabled" }
                 }
             }
@@ -140,4 +151,5 @@ data class CameraButtonPrefs(
     val focusAction: Action? = null,
     val shutterAction: Action? = null,
     val longPressAction: Action? = null,
+    val vibrationEnabled: Boolean = true,
 )
