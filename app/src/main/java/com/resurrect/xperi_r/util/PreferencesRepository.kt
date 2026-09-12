@@ -47,6 +47,7 @@ class PreferencesRepository(
                 Action.fromPlainString(it.cameraFocusAction),
                 Action.fromPlainString(it.cameraShutterAction),
                 Action.fromPlainString(it.cameraLongPressAction),
+                it.cameraButtonVibrationEnabled,
             )
         }
 
@@ -128,6 +129,10 @@ class PreferencesRepository(
 
     suspend fun setCameraLongPressAction(action: Action?) {
         preferencesStore.updateDataSilently { it.copy(cameraLongPressAction = action?.toPlainString() ?: "") }
+    }
+
+    suspend fun setCameraButtonVibrationEnabled(enabled: Boolean) {
+        preferencesStore.updateDataSilently { it.copy(cameraButtonVibrationEnabled = enabled) }
     }
 
     suspend fun setPerAppRefreshRateEnabled(enabled: Boolean) {
