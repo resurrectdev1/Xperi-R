@@ -93,6 +93,8 @@
     <string name="camera_key_half_press_title">Half-press (focus)</string>
     <string name="camera_key_full_press_title">Full-press (shutter)</string>
     <string name="camera_key_long_press_title">Long-press</string>
+    <string name="camera_key_vibration_title">Vibrate on press</string>
+    <string name="camera_key_vibration_desc">Buzz when the button is pressed and released</string>
 
     <string name="per_app_refresh_rate_title">Per-app refresh rate</string>
     <string name="per_app_refresh_rate_desc">Cap the screen refresh rate while specific apps are in the foreground</string>
