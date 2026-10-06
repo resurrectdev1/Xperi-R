@@ -12,11 +12,19 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 
+* Contributing.md (to be done)
+* Uploaded to F-droid (to be done)
+
+
+---
+
+## [0.8.4] - 2026-10-6
+
+### Added
+
 * Add vibration to camera key overide
 * Add vibration toggle for camera key overide
-* Uploaded to F-droid (to be done)
 * Social banner preview
-* Contributing.md (to be done)
 
 ---
 
