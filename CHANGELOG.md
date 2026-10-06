@@ -14,7 +14,7 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 * Contributing.md (to be done)
 * Uploaded to F-droid (to be done)
-
+* Fix camera key overider preventing using shutter button to take photos/videos (to be done)
 
 ---
 
